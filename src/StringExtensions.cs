@@ -22,9 +22,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace Myrcon_Battlefield3_Example {
+namespace Battlefield3_Example {
     public static class StringExtensions {
 
+        /// <summary>
+        /// This method accepts a string such as "Hello World!" and then splits them up into words
+        /// 
+        /// "Hello World!" => List { "Hello", "World!" }
+        /// "Hello \"There World!\"" => List { "Hello", "There World!" }
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public static List<string> Wordify(this string command) {
             List<string> returnList = new List<string>();
 

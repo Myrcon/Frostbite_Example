@@ -22,15 +22,24 @@
 using System;
 using System.Text;
 
-namespace Myrcon_Battlefield3_Example {
+namespace Battlefield3_Example {
     public class PacketSerializer {
 
+        /// <summary>
+        /// The size of the header of a single packet, or the minimum number of bytes
+        /// we need before we should even look for a full packet.
+        /// </summary>
         public UInt32 PacketHeaderSize { get; protected set; }
 
         public PacketSerializer() {
             this.PacketHeaderSize = 12;
         }
 
+        /// <summary>
+        /// Converts a type Packet to a byte array for transmission.
+        /// </summary>
+        /// <param name="packet"></param>
+        /// <returns></returns>
         public byte[] Serialize(Packet packet) {
 
             // Construct the header uint32
@@ -83,12 +92,21 @@ namespace Myrcon_Battlefield3_Example {
             return returnPacket;
         }
 
+        /// <summary>
+        /// Converts a byte array into a Packet. The byte array must match the required length of data exactly.
+        /// </summary>
+        /// <param name="packetData"></param>
+        /// <returns></returns>
         public Packet Deserialize(byte[] packetData) {
 
             Packet packet = new Packet();
 
+            // The header contains flags specifying the origin, response and the sequence id.
             UInt32 header = BitConverter.ToUInt32(packetData, 0);
-            //this.PacketSize = BitConverter.ToUInt32(packet, 4);
+
+            // Unused since packetData has the data in this implementation, but this is where/how you can get the packet size.
+            // UInt32 packetSize = BitConverter.ToUInt32(packetData, 4); 
+
             UInt32 wordsTotal = BitConverter.ToUInt32(packetData, 8);
 
             packet.Origin = Convert.ToBoolean(header & 0x80000000) == true ? PacketOrigin.Server : PacketOrigin.Client;
@@ -96,19 +114,24 @@ namespace Myrcon_Battlefield3_Example {
             packet.IsResponse = Convert.ToBoolean(header & 0x40000000);
             packet.SequenceId = header & 0x3fffffff;
 
-            int iWordOffset = 0;
+            int wordOffset = 0;
 
             for (UInt32 wordCount = 0; wordCount < wordsTotal; wordCount++) {
-                UInt32 wordLength = BitConverter.ToUInt32(packetData, (int)this.PacketHeaderSize + iWordOffset);
+                UInt32 wordLength = BitConverter.ToUInt32(packetData, (int)this.PacketHeaderSize + wordOffset);
 
-                packet.Words.Add(Encoding.GetEncoding(1252).GetString(packetData, (int)this.PacketHeaderSize + iWordOffset + 4, (int)wordLength));
+                packet.Words.Add(Encoding.GetEncoding(1252).GetString(packetData, (int)this.PacketHeaderSize + wordOffset + 4, (int)wordLength));
 
-                iWordOffset += Convert.ToInt32(wordLength) + 5; // WordLength + WordSize + NullByte
+                wordOffset += Convert.ToInt32(wordLength) + 5; // WordLength + WordSize + NullByte
             }
 
             return packet;
         }
 
+        /// <summary>
+        /// Reads the packet size specified in whatever data's header we have.
+        /// </summary>
+        /// <param name="packetData"></param>
+        /// <returns></returns>
         public long ReadPacketSize(byte[] packetData) {
             long length = 0;
 

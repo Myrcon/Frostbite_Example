@@ -21,24 +21,24 @@
 */
 using System;
 
-namespace Myrcon_Battlefield3_Example {
+namespace Battlefield3_Example {
     public class Program {
 
         protected static FrostbiteConnection Connection = null;
 
-        static void Main(string[] args) {
+        static void Main() {
 
-            // You should populate the below details to avoid having to enter them each run.
-            Program.Connection = new FrostbiteConnection() {
-                // Hostname = "",
-                // Port = 27000,
-                // PlainTextPassword = ""
-            };
+            Program.Connection = new FrostbiteConnection();
+
+            // You should populate and uncomment the below details to avoid having to enter them each run.
+            // Program.Connection.Hostname = "";
+            // Program.Connection.Port = 27000;
+            // Program.Connection.PlainTextPassword = "";
+
             Program.Connection.PacketReceived += new FrostbiteConnection.PacketHandler(Connection_PacketReceived);
             Program.Connection.PacketSent += new FrostbiteConnection.PacketHandler(Connection_PacketSent);
             Program.Connection.Connected += new FrostbiteConnection.EmptyParameterHandler(Connection_Connected);
             Program.Connection.Disconnected += new FrostbiteConnection.EmptyParameterHandler(Connection_Disconnected);
-
             Program.Connection.Error += new FrostbiteConnection.ErrorHandler(Connection_Error);
             
             while (String.IsNullOrEmpty(Program.Connection.Hostname) == true) {
@@ -76,8 +76,6 @@ namespace Myrcon_Battlefield3_Example {
 
                 if (String.Compare(messageInput, "exit", StringComparison.OrdinalIgnoreCase) == 0) {
                     Program.Connection.Shutdown();
-
-                    Environment.Exit(0);
                 }
                 else {
                     Program.Connection.Command(messageInput.Wordify());
@@ -88,25 +86,26 @@ namespace Myrcon_Battlefield3_Example {
             Console.ReadLine();
         }
 
-        static void Connection_Error(FrostbiteConnection sender, Exception e) {
+        protected static void Connection_Error(FrostbiteConnection sender, Exception e) {
             Console.WriteLine("ERROR: {0}", e.Message);
         }
 
-        static void Connection_Disconnected(FrostbiteConnection sender) {
+        protected static void Connection_Disconnected(FrostbiteConnection sender) {
             Console.WriteLine("Disconnected");
         }
 
-        static void Connection_Connected(FrostbiteConnection sender) {
+        protected static void Connection_Connected(FrostbiteConnection sender) {
             Console.WriteLine("Connected");
 
+            // Now attempt a login.
             sender.Login();
         }
 
-        static void Connection_PacketSent(FrostbiteConnection sender, Packet packet) {
+        protected static void Connection_PacketSent(FrostbiteConnection sender, Packet packet) {
             Console.WriteLine("SENT: {0}", packet);
         }
 
-        static void Connection_PacketReceived(FrostbiteConnection sender, Packet packet) {
+        protected static void Connection_PacketReceived(FrostbiteConnection sender, Packet packet) {
             Console.WriteLine("RECV: {0}", packet);
         }
     }

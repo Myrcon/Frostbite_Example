@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Myrcon_Battlefield3_Example {
+namespace Battlefield3_Example {
 
     public class Packet {
 
@@ -46,7 +46,7 @@ namespace Myrcon_Battlefield3_Example {
         /// A list of words to send to the server or recieved from the server that make up
         /// a frostbite command/event.
         /// </summary>
-        public List<string> Words { get; set; }
+        public List<String> Words { get; set; }
 
         /// <summary>
         /// The sequence id for this command/event
@@ -55,7 +55,7 @@ namespace Myrcon_Battlefield3_Example {
 
         public Packet() {
             this.SequenceId = null;
-            this.Words = new List<string>();
+            this.Words = new List<String>();
             this.Origin = PacketOrigin.None;
             this.IsResponse = false;
             this.Stamp = DateTime.Now;

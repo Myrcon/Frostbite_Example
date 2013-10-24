@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 
-namespace Battlefield3_Example {
+namespace Frostbite_Example {
     public class FrostbiteConnection {
 
         /// <summary>

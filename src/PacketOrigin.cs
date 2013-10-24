@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
 */
-namespace Battlefield3_Example {
+namespace Frostbite_Example {
     public enum PacketOrigin {
         /// <summary>
         /// Unknown origin

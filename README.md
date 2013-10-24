@@ -1,4 +1,4 @@
-Battlefield3_Example
+Frostbite_Example
 ====================
 
-A quick battlefield 3 rcon example written in C#
+A quick Frostbite based rcon example written in C#

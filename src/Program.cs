@@ -21,7 +21,7 @@
 */
 using System;
 
-namespace Battlefield3_Example {
+namespace Frostbite_Example {
     public class Program {
 
         protected static FrostbiteConnection Connection = null;

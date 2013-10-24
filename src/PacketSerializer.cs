@@ -22,7 +22,7 @@
 using System;
 using System.Text;
 
-namespace Battlefield3_Example {
+namespace Frostbite_Example {
     public class PacketSerializer {
 
         /// <summary>

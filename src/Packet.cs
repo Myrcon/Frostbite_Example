@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Battlefield3_Example {
+namespace Frostbite_Example {
 
     public class Packet {
 
